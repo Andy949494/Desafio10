@@ -1,0 +1,173 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - products
+      responses:
+        "200":
+          description: Los productos fueron obtenidos sactifactoriamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/products'
+        "400":
+          description: "No autorizado - probablemente token no valido"
+        "500":
+          description: "Error interno del servidor"
+    post:
+      summary: Agregar un producto nuevo
+      tags:
+        - products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addOrUpdateProduct'
+      responses:
+        "200":
+          description: Producto agregado
+        "500":
+          descriptin: Error interno del servidor
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto a partir de su ID
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto a mostrar
+      responses:
+          "200":
+            description: Producto encontrado
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#components/schemas/products'
+          "500":
+            description: Error interno del servidor
+    put:
+      summary: Actualiza un producto a partir de su Id
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addOrUpdateProduct'
+      responses:
+        "200":
+          description: Producto actualizado
+        "500":
+          descriptin: Error interno del servidor
+    delete:
+      summary: Elimina un producto a partir de su Id
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto a eliminar
+      responses:
+        "200":
+          description: Producto actualizado
+        "500":
+          descriptin: Error interno del servidor
+
+components:
+  schemas:
+    products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongo
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripción del producto.
+        code:
+          type: String,
+          description: Código del producto.
+        price:
+          type: String,
+          description: Precio del producto.
+        status:
+          type: String,
+          description: Estado del producto.
+        stock:
+          type: String,
+          description: Stock del producto
+        category:
+          type: String,
+          description: Categoría del producto
+        owner:
+          type: ObjectId
+          description: Id del propietario
+        thumbnails:
+          type: Array
+          description: URL de la miniatura del producto.
+      example:
+        _id: ObjectId("647cd68ceefe6a39c1cb79dc")
+        title: c
+        description: c
+        code: c1
+        price: 3
+        status: "true"
+        stock: 3
+        category: "health"
+        owner: ObjectId("64e0184edb69458962ec96e4")
+        thumbnails: ["http://localhost:8080/images/1685902988367-1.jpg"]
+  requestBodies:
+    addOrUpdateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripción del producto.
+        code:
+          type: String,
+          description: Código del producto.
+        price:
+          type: String,
+          description: Precio del producto.
+        status:
+          type: String,
+          description: Estado del producto.
+        stock:
+          type: String,
+          description: Stock del producto
+        category:
+          type: String,
+          description: Categoría del producto
+        thumbnails:
+          type: Array
+          description: URL de la miniatura del producto.
+      example:
+        title: a
+        description: a
+        code: a1
+        price: 1
+        status: "true"
+        stock: 1
+        category: "clothing"
+        thumbnails: ["http://localhost:8080/images/1685902988367-2.jpg"]
