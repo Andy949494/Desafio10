@@ -33,6 +33,7 @@ const schema = new mongoose.Schema({
                     ref:'user',
                 },
             }],
+        default: 'admin'
     },
     thumbnails:{
         type:Array,
